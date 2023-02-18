@@ -1,7 +1,6 @@
 require 'socket'
 require 'byebug'
 
-
 class Client
 	def tcp_client
 		socket = TCPSocket.new 'localhost', 3002
