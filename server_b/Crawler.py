@@ -7,12 +7,16 @@ from pprint import pprint # noqa
 
 import requests
 from bs4 import BeautifulSoup
-import xml.etree.ElementTree as ET
 
 
 class Crawler:
     def __init__(self):
         self.movie_data = []
+        self.titles = []
+        self.years = []
+        self.ratings = []
+        self.links = []
+        self.thumbnails = []
 
     def crawl(self):
         response = requests.get('https://www.imdb.com/chart/top/')
@@ -26,10 +30,19 @@ class Crawler:
             rating_column = movie.find('td', {'class': 'ratingColumn'})
 
             title = title_column.a.text
+            self.titles.append(title)
+
             year = title_column.span.text.strip('()')
+            self.years.append(year)
+
             rating = rating_column.strong.text
+            self.ratings.append(rating)
+
             link = title_column.a['href']
+            self.links.append(link)
+
             thumbnail = movie.find('td', {'class': 'posterColumn'}).a.img['src']
+            self.thumbnails.append(thumbnail)
 
             self.movie_data.append({
                 'title': title,
@@ -45,23 +58,3 @@ class Crawler:
 
         if format == 'json':
             return self.movie_data
-        elif format == 'xml':
-            root = ET.Element('movies')
-            for movie in self.movie_data:
-                movie_elem = ET.SubElement(root, 'movie')
-
-                title_elem = ET.SubElement(movie_elem, 'title')
-                title_elem.text = movie['title']
-
-                year_elem = ET.SubElement(movie_elem, 'year')
-                year_elem.text = movie['year']
-
-                rating_elem = ET.SubElement(movie_elem, 'rating')
-                rating_elem.text = movie['rating']
-
-                rating_elem = ET.SubElement(movie_elem, 'link')
-                rating_elem.text = movie['link']
-
-                rating_elem = ET.SubElement(movie_elem, 'thumbnail')
-                rating_elem.text = movie['thumbnail']
-            return ET.tostring(root)
