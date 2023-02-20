@@ -20,10 +20,18 @@ class Crawler:
             title = title_column.a.text
             year = title_column.span.text.strip('()')
             rating = rating_column.strong.text
-            args = {'title': title, 'year': year, 'rating': rating}
-            self.movie_data.append(args)
+            link = title_column.a['href']
+            image = movie.find('td', {'class': 'posterColumn'}).a.img['src']
 
-    def get_movies(self):
+            self.movie_data.append({
+                'title': title[:20],
+                'year': year[:20],
+                'rating': rating[:20],
+                'link': 'https://www.imdb.com' + link[:20],
+                'image': image[:20]
+            })
+
+    def movies(self):
         if not self.movie_data:
             self.crawl()
         return self.movie_data

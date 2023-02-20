@@ -10,12 +10,17 @@
         <th>Title</th>
         <th>Year</th>
         <th>Rating</th>
+        <th>Link</th>
+        <th>Image Hoster</th>
+
       </tr>
       {% for movie in movies %}
       <tr>
         <td>{{ movie.title }}</td>
         <td>{{ movie.year }}</td>
         <td>{{ movie.rating }}</td>
+        <td>{{ movie.link }}</td>
+        <td>{{ movie.image }}</td>
       </tr>
       {% endfor %}
     </table>

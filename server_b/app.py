@@ -7,8 +7,7 @@ crawler = Crawler()
 
 @app.route('/')
 def index():
-    movies = crawler.get_movies()
-    return render_template('index.html', movies=movies)
+    return render_template('index.html', movies=crawler.movies())
 
 
 if __name__ == '__main__':
