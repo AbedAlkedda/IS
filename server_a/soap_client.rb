@@ -14,7 +14,7 @@ class SOAPClient
   end
 end
 
-client = SOAPClient.new('http://localhost:5000?wsdl')
+client = SOAPClient.new('http://localhost:8000?wsdl')
 titles = client.get_titles(10)
 
 puts titles

@@ -45,7 +45,7 @@ if __name__ == '__main__':
     crawler = Crawler()
     xml_data = crawler.movies()
 
-    server = make_server('localhost', 5000, WsgiApplication(application))
+    server = make_server('localhost', 8000, WsgiApplication(application))
     logging.basicConfig(level=logging.DEBUG)
     logging.info('starting server')
     server.serve_forever()
