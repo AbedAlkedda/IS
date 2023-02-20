@@ -19,7 +19,7 @@ class Crawler:
             rating_column = movie.find('td', {'class': 'ratingColumn'})
 
             title = title_column.a.text
-            # ToDo: Check for wiki page
+            # ToDo: Check for wiki page, important
             year = title_column.span.text.strip('()')
             rating = rating_column.strong.text
             link = title_column.a['href']
