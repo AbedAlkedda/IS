@@ -1,5 +1,12 @@
-from bs4 import BeautifulSoup
+# ToDo: seperate the big method into smaller once
+# DRY the code
+# Check for wiki page, important
+
+import pdb # noqa
+from pprint import pprint # noqa
+
 import requests
+from bs4 import BeautifulSoup
 import xml.etree.ElementTree as ET
 
 
@@ -19,7 +26,6 @@ class Crawler:
             rating_column = movie.find('td', {'class': 'ratingColumn'})
 
             title = title_column.a.text
-            # ToDo: Check for wiki page, important
             year = title_column.span.text.strip('()')
             rating = rating_column.strong.text
             link = title_column.a['href']

@@ -1,21 +1,21 @@
-from flask import Flask, render_template, Response
-from Crawler import Crawler
+# # ToDo: SOAP flask out
 
-app = Flask(__name__)
-crawler = Crawler()
-
-
-@app.route('/')
-def index():
-    return render_template('index.html', movies=crawler.movies())
+from spyne import Application, rpc, ServiceBase, Integer
+from spyne.protocol.soap import Soap11
+from spyne.server.wsgi import WsgiApplication
 
 
-@app.route('/movies.xml')
-def movies_xml():
-    crawler = Crawler()
-    xml_data = crawler.movies(format='xml')
-    return Response(xml_data, mimetype='text/xml')
+class CrawlerServer(ServiceBase):
+    @rpc(Integer, Integer, _returns=Integer)
+    def add_numbers(ctx, a, b):
+        return a + b
 
+
+application = Application([CrawlerServer], tns='crawler.example',
+                          in_protocol=Soap11(validator='lxml'),
+                          out_protocol=Soap11())
 
 if __name__ == '__main__':
-    app.run()
+    from wsgiref.simple_server import make_server
+    server = make_server('localhost', 5000, WsgiApplication(application))
+    server.serve_forever()

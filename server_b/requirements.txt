@@ -2,3 +2,7 @@ Flask
 requests
 python-dotenv
 bs4
+flask-spyne
+flask-ext
+zeep
+flask-soap
