@@ -66,7 +66,8 @@ application = Application([CrawlerServer], tns='crawler.example',
 
 if __name__ == '__main__':
     crawler = Crawler()
-    pdb.set_trace()
+    crawler.movies()
+
     server = make_server('localhost', 8000, WsgiApplication(application))
     logging.basicConfig(level=logging.DEBUG)
     logging.info('starting server')
