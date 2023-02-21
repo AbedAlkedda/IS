@@ -4,8 +4,9 @@ require 'sinatra'
 require 'byebug'
 require_relative 'soap_client'
 
-get '/' do
-  @movies = SOAPClient.new('http://localhost:8000?wsdl').movies_data(10)
+soap_client = SOAPClient.new('http://localhost:8000?wsdl')
 
+get '/' do
+  @movies = soap_client.movies_data(10)
   erb :index
 end
