@@ -10,3 +10,9 @@ get '/' do
   @movies = soap_client.movies_data(10)
   erb :index
 end
+
+post '/update-list' do
+  data = JSON.parse(request.body.read)
+  @movies = soap_client.movies_data(data.to_i)
+  @movies.to_json
+end

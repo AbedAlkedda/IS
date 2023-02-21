@@ -39,6 +39,49 @@
 
       .text-center { text-align: center; }
     </style>
+
+    <script>
+      $(document).ready(function() {
+        var container = $('.js-data-wrapper');
+          var   title     = [],
+                year      = [],
+                rating    = [],
+                link      = [],
+                thumbnail = [];
+
+        $('.js-number-selector').on('change', function(e) {
+            // fetch data
+            fetch('/update-list', {
+            method: 'POST', // or 'GET', 'PUT', 'DELETE'
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(e.target.value) // your data object or array as JSON string
+          })
+          .then(response => response.json())
+          .then(data => {
+            container.empty();
+            data.forEach(function(item) {
+              title.push(item.title);
+              year.push(item.year);
+              rating.push(item.rating);
+              link.push(item.link);
+              thumbnail.push(item.thumbnail);
+            });
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+
+          // add feteched data to container
+          console.log('Add to container');
+
+          // clear arrays
+          console.log('clear arrays');
+
+        });
+      });
+    </script>
   </head>
   <body>
     <header>
@@ -68,7 +111,7 @@
           </thead>
           <tbody>
             <% @movies.each do |movie| %>
-              <tr class="text-center">
+              <tr class="text-center js-data-wrapper">
                 <td><img src="<%= movie[:thumbnail] %>" alt="<%= movie[:title] %>" class="img-thumbnail"></td>
                 <td><%= movie[:title] %></td>
                 <td><%= movie[:year] %></td>
