@@ -17,13 +17,8 @@
   <body>
     <div class="container">
       <h1>Crawled Data</h1>
-      <form>
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" id="add-wiki-link" checked> Add Wikipedia Link
-          </label>
-        </div>
-      </form>
+      <h2>Movie numbers using a scroller</h2>
+
       <table class="table table-bordered">
         <thead>
           <tr>
@@ -40,21 +35,12 @@
               <td><%= movie[:title] %></td>
               <td><%= movie[:year] %></td>
               <td><%= movie[:rating] %></td>
+              <td><%= "<a href='#{movie[:link]}' target='_blank'>#{movie[:link]}</a>" %></td>
               <td><img src="<%= movie[:thumbnail] %>" alt="<%= movie[:title] %>" class="img-thumbnail"></td>
             </tr>
           <% end %>
         </tbody>
       </table>
     </div>
-    <script>
-      $(document).ready(function() {
-        $('#add-wiki-link').on('change', function() {
-          var checked = $(this).is(':checked');
-          $.get('/', { add_wiki_link: checked }, function(data) {
-            $('body').html(data);
-          });
-        });
-      });
-    </script>
   </body>
 </html>
