@@ -5,23 +5,99 @@
     <title>Crawled Data</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <style>
-      th {
+     <style>
+      /* Add custom styles here */
+      header { background-color: #343a40; color: white; padding: 10px 0; }
+
+      .header-title {
+        margin: 0;
+        font-size: 30px;
+        font-weight: bold;
         text-align: center;
       }
-      td {
-        vertical-align: middle !important;
+
+      .header-subtitle {
+        margin: 0;
+        font-size: 20px;
+        text-align: center;
       }
+
+      th { text-align: center; }
+      
+      td { vertical-align: middle !important; }
+
       .table-container {
         height: 500px;
         overflow-y: scroll;
       }
+
+      /* Custom styles for form-group */
+      .form-group label {
+        font-weight: bold;
+        color: #343a40;
+        margin-right: 10px;
+      }
+
+      .form-group input[type=range]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        background-color: #343a40;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+
+      .form-group input[type=range]::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        background-color: #343a40;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+
+      .form-group input[type=range]::-ms-thumb {
+        width: 20px;
+        height: 20px;
+        background-color: #343a40;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+
+      /* Custom styles for table */
+      .table-bordered {
+        border-color: #ccc;
+      }
+
+      .table-bordered thead th {
+        background-color: #f0f0f0;
+        border-color: #ccc;
+      }
+
+      .table-bordered tbody td {
+        background-color: #fff;
+        border-color: #ccc;
+      }
+
+      .table-bordered tbody td a {
+        color: #343a40;
+        font-weight: bold;
+      }
+
+      .table-bordered tbody td a:hover {
+        text-decoration: none;
+        color: #343a40;
+      }
+
+      .text-center { text-align: center; }
     </style>
   </head>
   <body>
+    <header>
+      <h1 class="header-title">Crawled Data</h1>
+      <p class="header-subtitle">A list of movies scraped from the web</p>
+    </header>
     <div class="container">
-      <h1>Crawled Data</h1>
-      <h2>Movie numbers using a slider</h2>
       <div class="row">
         <form class="form-inline" action="/" method="get">
           <div class="form-group">
@@ -35,21 +111,21 @@
         <table class="table table-bordered">
           <thead>
             <tr>
+              <th>Thumbnail</th>
               <th>Title</th>
               <th>Year</th>
               <th>Rating</th>
               <th>Link</th>
-              <th>Thumbnail</th>
             </tr>
           </thead>
           <tbody>
             <% @movies.each do |movie| %>
-              <tr>
+              <tr class="text-center">
+                <td><img src="<%= movie[:thumbnail] %>" alt="<%= movie[:title] %>" class="img-thumbnail"></td>
                 <td><%= movie[:title] %></td>
                 <td><%= movie[:year] %></td>
                 <td><%= movie[:rating] %></td>
                 <td><%= "<a href='#{movie[:link]}' target='_blank'>#{movie[:link]}</a>" %></td>
-                <td><img src="<%= movie[:thumbnail] %>" alt="<%= movie[:title] %>" class="img-thumbnail"></td>
               </tr>
             <% end %>
           </tbody>
