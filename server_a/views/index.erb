@@ -1,38 +1,60 @@
-<html>
-<head>
-  <title>Login</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-</head>
-<body>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-4 col-md-offset-4">
-        <h2>Login</h2>
-        <form id="login-form">
-          <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" class="form-control" id="username" name="username">
-          </div>
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" name="password">
-          </div>
-          <button type="submit" class="btn btn-primary">Refresh</button>
-        </form>
-      </div>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Crawled Data</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <style>
+      th {
+        text-align: center;
+      }
+      td {
+        vertical-align: middle !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Crawled Data</h1>
+      <form>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" id="add-wiki-link" checked> Add Wikipedia Link
+          </label>
+        </div>
+      </form>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Year</th>
+            <th>Rating</th>
+            <th>Link</th>
+            <th>Thumbnail</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @movies.each do |movie| %>
+            <tr>
+              <td><%= movie[:title] %></td>
+              <td><%= movie[:year] %></td>
+              <td><%= movie[:rating] %></td>
+              <td><img src="<%= movie[:thumbnail] %>" alt="<%= movie[:title] %>" class="img-thumbnail"></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
     </div>
-  </div>
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script>
-    $(function() {
-      $('#login-form').submit(function(event) {
-        event.preventDefault();
-        var username = $('#username').val();
-        var password = $('#password').val();
-        // TODO: Make an AJAX request to your login endpoint
+    <script>
+      $(document).ready(function() {
+        $('#add-wiki-link').on('change', function() {
+          var checked = $(this).is(':checked');
+          $.get('/', { add_wiki_link: checked }, function(data) {
+            $('body').html(data);
+          });
+        });
       });
-    });
-  </script>
-</body>
+    </script>
+  </body>
 </html>

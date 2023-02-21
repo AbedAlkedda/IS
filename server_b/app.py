@@ -5,7 +5,17 @@ from Crawler import Crawler
 from spyne.protocol.soap import Soap11
 from spyne.server.wsgi import WsgiApplication
 from wsgiref.simple_server import make_server
-from spyne import Application, rpc, ServiceBase, Integer, Unicode, Iterable
+from spyne import Application, rpc, ServiceBase, Integer, Unicode, Iterable, ComplexModel
+
+
+class MovieData(ComplexModel):
+    __namespace__ = 'movie_data'
+
+    title = Unicode
+    year = Unicode
+    rating = Unicode
+    link = Unicode
+    thumbnail = Unicode
 
 
 # SOAP Server
@@ -35,6 +45,19 @@ class CrawlerServer(ServiceBase):
     @rpc(Integer, _returns=Iterable(Unicode))
     def tubmbnails(ctx, elements):
         return crawler.thumbnails[:elements]
+
+    @rpc(Integer, _returns=Iterable(MovieData))
+    def movies_data(ctx, elements):
+        res = []
+        for m in crawler.movie_data[:elements]:
+            movie_data = MovieData(title=m['title'],
+                                   year=m['year'],
+                                   rating=m['rating'],
+                                   link=m['link'],
+                                   thumbnail=m['thumbnail'])
+            res.append(movie_data)
+
+        return res
 
 
 application = Application([CrawlerServer], tns='crawler.example',
