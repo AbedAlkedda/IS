@@ -6,88 +6,36 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
      <style>
-      /* Add custom styles here */
       header { background-color: #343a40; color: white; padding: 10px 0; }
 
-      .header-title {
-        margin: 0;
-        font-size: 30px;
-        font-weight: bold;
-        text-align: center;
-      }
-
-      .header-subtitle {
-        margin: 0;
-        font-size: 20px;
-        text-align: center;
-      }
-
       th { text-align: center; }
-      
+
       td { vertical-align: middle !important; }
 
-      .table-container {
-        height: 500px;
-        overflow-y: scroll;
-      }
+      .header-title { margin: 0;font-size: 30px;font-weight: bold;text-align: center; }
 
-      /* Custom styles for form-group */
-      .form-group label {
-        font-weight: bold;
-        color: #343a40;
-        margin-right: 10px;
-      }
+      .header-subtitle { margin: 0; font-size: 20px; text-align: center; }
 
-      .form-group input[type=range]::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 20px;
-        height: 20px;
-        background-color: #343a40;
-        border-radius: 50%;
-        cursor: pointer;
-      }
+      .table-container { height: 500px; overflow-y: scroll; }
 
-      .form-group input[type=range]::-moz-range-thumb {
-        width: 20px;
-        height: 20px;
-        background-color: #343a40;
-        border-radius: 50%;
-        cursor: pointer;
-      }
+      .form-group label {font-weight: bold;color: #343a40;margin-right: 10px; }
 
-      .form-group input[type=range]::-ms-thumb {
-        width: 20px;
-        height: 20px;
-        background-color: #343a40;
-        border-radius: 50%;
-        cursor: pointer;
-      }
+      .form-group input[type=range]::-webkit-slider-thumb {-webkit-appearance: none;appearance: none;width: 20px;height: 20px;background-color: #343a40;border-radius: 50%ursor: pointer; }
+
+      .form-group input[type=range]::-moz-range-thumb {width: 20px;height: 20px;background-color: #343a40;border-radius: 50%;cursor: pointer; }
+
+      .form-group input[type=range]::-ms-thumb {width: 20px;height: 20px;background-color: #343a40;border-radius: 50%;cursor: pointer; }
 
       /* Custom styles for table */
-      .table-bordered {
-        border-color: #ccc;
-      }
+      .table-bordered {border-color: #ccc; }
 
-      .table-bordered thead th {
-        background-color: #f0f0f0;
-        border-color: #ccc;
-      }
+      .table-bordered thead th {background-color: #f0f0f0;border-color: #ccc; }
 
-      .table-bordered tbody td {
-        background-color: #fff;
-        border-color: #ccc;
-      }
+      .table-bordered tbody td {background-color: #fff;border-color: #ccc; }
 
-      .table-bordered tbody td a {
-        color: #343a40;
-        font-weight: bold;
-      }
+      .table-bordered tbody td a {color: #343a40;font-weight: bold; }
 
-      .table-bordered tbody td a:hover {
-        text-decoration: none;
-        color: #343a40;
-      }
+      .table-bordered tbody td a:hover {text-decoration: none;color: #343a40; }
 
       .text-center { text-align: center; }
     </style>
@@ -99,10 +47,10 @@
     </header>
     <div class="container">
       <div class="row">
-        <form class="form-inline" action="/" method="get">
-          <div class="form-group">
-            <label for="num">Number of movies:</label>
-            <input type="range" min="0" max="100" class="form-control-range" id="num" name="num" onchange="updateLabel(this.value)">
+        <form class="form-inline text-center" action="/" method="get">
+          <div class="form-group js-number-selector number-selector">
+            <label for="num">Movies to display</label>
+            <input type="range" min="0" max="100" class="form-control-range large-range" id="num" name="num" onchange="updateLabel(this.value)">
             <span id="num-label">0</span>
           </div>
         </form>
