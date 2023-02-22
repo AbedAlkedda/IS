@@ -1,25 +1,27 @@
-version: '3.9'
+version: '3'
 
 services:
 
   # Server A
   server_a:
+    container_name: server_a
     build:
       context: .
       dockerfile: server_a.Dockerfile
-    volumes:
-      - ./server_a:/app
+    networks:
+      - network
     ports:
-      - "4567:4567"
-    depends_on:
-      - server_b
+      - "5000:5000"
 
   # Server B
   server_b:
+    container_name: server_b
     build:
       context: .
       dockerfile: server_b.Dockerfile
-    volumes:
-      - ./server_b:/home/serverb
-    ports:
-      - "8000:8000"
+    networks:
+      - network
+
+networks:
+  network:
+    driver: bridge

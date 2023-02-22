@@ -13,8 +13,5 @@ RUN pip install --user -r requirements.txt
 # Copy source files and start flask server
 COPY server_b/ .
 
-# Expose port 8000 for the SOAP server
-EXPOSE 8000
-
 # Start the SOAP server when the container starts
 CMD ["python", "app.py"]

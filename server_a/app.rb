@@ -4,6 +4,8 @@ require 'sinatra'
 require 'byebug'
 require_relative 'soap_client'
 
+set :port, 5000
+
 soap_client = SOAPClient.new('http://localhost:8000?wsdl')
 
 get '/' do

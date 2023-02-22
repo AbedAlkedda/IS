@@ -12,8 +12,5 @@ RUN bundle install
 # Copy the rest of the application code into the container
 COPY server_a/ ./
 
-# Expose the application port
-EXPOSE 4567
-
 # Start the application
-CMD ["ruby", "app.rb"]
+CMD ["ruby", "app.rb", "-o", "0.0.0.0", "-p", "5000"]
