@@ -53,16 +53,14 @@
     <script>
       $(document).ready(function() {
         var container = $('.js-data-wrapper');
-          var   title     = [],
-                year      = [],
-                rating    = [],
-                link      = [],
-                thumbnail = [];
+        var   title     = [],
+              year      = [],
+              rating    = [],
+              link      = [],
+              thumbnail = [];
 
         $('.js-number-selector').on('change', function(e) {
-
             $('#num-label').text(e.target.value);
-            // fetch data
             fetch('/update-list', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -70,26 +68,49 @@
           })
           .then(response => response.json())
           .then(data => {
-            // replace the childern of the children!
-            // container.empty();
+            container.empty();
             data.forEach(function(item) {
               title.push(item.title);
               year.push(item.year);
               rating.push(item.rating);
               link.push(item.link);
               thumbnail.push(item.thumbnail);
+              console.log(link.length);
             });
           })
           .catch(error => {
             console.error('Error:', error);
           });
 
-          // add feteched data to container
-          console.log('Add to container');
+        $('.js-data-wrapper').empty();
+        for (let i = 0; i < title.length; i++) {
+            // Get a reference to the tbody element
+            var tbody         = $('.js-data-wrapper').closest('tbody'),
+                newRow        = $('<tr>', {'class': 'text-center js-data-wrapper'}),
+                newImgCell    = $('<td>', {'class': 'js-img'}),
+                newTitleCell  = $('<td>', {'class': 'js-title'}),
+                newYearCell   = $('<td>', {'class': 'js-year'}),
+                newRatingCell = $('<td>', {'class': 'js-rating'}),
+                newLinkCell   = $('<td>', {'class': 'js-link'});
 
-          // clear arrays
-          console.log('clear arrays');
+            // Add content to the new cell elements
+            newImgCell.append($('<img>', {'src': thumbnail[i], 'alt': 'Image description', 'class': 'img-thumbnail'}));
+            newTitleCell.text(title[i]);
+            newYearCell.text(year[i]);
+            newRatingCell.text(rating[i]);
+            newLinkCell.append($('<a>', {'href': link[i], 'target': '_blank'}).text(link[i]));
 
+            // Add the new cell elements to the new row
+            newRow.append(newImgCell, newTitleCell, newYearCell, newRatingCell, newLinkCell);
+
+            // Add the new row to the tbody
+            tbody.append(newRow);
+          }
+          title.length     = 0;
+          year.length      = 0;
+          rating.length    = 0;
+          link.length      = 0;
+          thumbnail.length = 0;
         });
       });
     </script>
@@ -97,15 +118,15 @@
   <body>
     <header>
       <h1 class="header-title">Crawled Data</h1>
-      <p class="header-subtitle">A list of movies scraped from the web</p>
+      <p class="header-subtitle">My Movies</p>
     </header>
     <div class="container">
       <div class="row">
         <form class="form-inline text-center" action="/" method="get">
           <div class="form-group js-number-selector number-selector">
             <label for="num">Movies to display</label>
-            <input type="range" min="0" max="100" class="form-control-range large-range" id="num" name="num">
-            <span id="num-label">0</span>
+            <input type="range" min="0" max="100" class="form-control-range large-range" id="num" name="num" value="2">
+            <span id="num-label">2</span>
           </div>
         </form>
       </div>
@@ -123,11 +144,11 @@
           <tbody>
             <% @movies.each_with_index do |movie, index| %>
               <tr class="text-center js-data-wrapper">
-                <td id="img-<%= index %>"><img src="<%= movie[:thumbnail] %>" alt="<%= movie[:title] %>" class="img-thumbnail"></td>
-                <td id="title-<%= index %>"><%= movie[:title] %></td>
-                <td id="year-<%= index %>"><%= movie[:year] %></td>
-                <td id="rating-<%= index %>"><%= movie[:rating] %></td>
-                <td id="link-<%= index %>"><%= "<a href='#{movie[:link]}' target='_blank'>#{movie[:link]}</a>" %></td>
+                <td class="js-img" id="img-<%= index %>"><img src="<%= movie[:thumbnail] %>" alt="<%= movie[:title] %>" class="img-thumbnail"></td>
+                <td class="js-title" id="title-<%= index %>"><%= movie[:title] %></td>
+                <td class="js-year" id="year-<%= index %>"><%= movie[:year] %></td>
+                <td class="js-rating" id="rating-<%= index %>"><%= movie[:rating] %></td>
+                <td class="js-link" id="link-<%= index %>"><%= "<a href='#{movie[:link]}' target='_blank'>#{movie[:link]}</a>" %></td>
               </tr>
             <% end %>
           </tbody>

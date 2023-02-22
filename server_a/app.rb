@@ -7,7 +7,7 @@ require_relative 'soap_client'
 soap_client = SOAPClient.new('http://localhost:8000?wsdl')
 
 get '/' do
-  @movies = soap_client.movies_data 20
+  @movies = soap_client.movies_data 2
   soap_client.htwk_info
   @htwk_infos = soap_client.htwk_infos
 
