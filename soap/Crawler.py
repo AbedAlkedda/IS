@@ -20,6 +20,7 @@ class Crawler:
         self.links = []
         self.thumbnails = []
         self.res = {}
+        self.semester_info = ''
 
     def crawl(self):
         response = requests.get('https://www.imdb.com/chart/top/')
@@ -62,15 +63,23 @@ class Crawler:
         if format == 'json':
             return self.movie_data
 
-    def htwk_info(self):
+    def htwk_info(self, selector=2):
         url = 'https://www.htwk-leipzig.de/studieren/im-studium/akademischer-kalender/'
         response = requests.get(url)
 
         # send a SSL request, otherwise the HTWK wont resposed
         soup = BeautifulSoup(response.content, 'html.parser')
 
+        # find headers and select one
+        header_holder = []
+        for item in soup.find_all('h2'):
+            if 'Wintersemester' in item.text or 'Sommersemester' in item.text:
+                header_holder.append(item.text.replace('\t', '').replace('\n', ''))
+
+        self.semester_info = header_holder[selector]
+
         # Find the table with the class "contenttable"
-        contenttable = soup.find_all('table', {'class': 'contenttable'})[2]
+        contenttable = soup.find_all('table', {'class': 'contenttable'})[selector]
 
         if contenttable is not None:
             # Find all the table rows (tr elements) within that table

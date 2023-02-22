@@ -10,8 +10,10 @@ soap_client = SOAPClient.new(ENV['SOAP_CLIENT_URL'] || 'http://localhost:8000?ws
 
 get '/' do
   @movies = soap_client.movies_data 2
-  soap_client.htwk_info
-  @htwk_infos = soap_client.htwk_infos
+
+  soap_client.htwk_info 2
+  @htwk_infos    = soap_client.htwk_infos
+  @semeter_infos = soap_client.semeter_infos
 
   erb :index
 end

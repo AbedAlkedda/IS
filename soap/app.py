@@ -65,9 +65,9 @@ class CrawlerServer(ServiceBase):
 
         return res
 
-    @rpc(_returns=HtwkInfo)
-    def htwk_info(ctx):
-        crawler.htwk_info()
+    @rpc(Integer, _returns=HtwkInfo)
+    def htwk_info(ctx, ele):
+        crawler.htwk_info(selector=ele)
         return HtwkInfo(
             semester_duration=crawler.res['Semesterdauer'],
             precourses=crawler.res['Vorkurse'],
@@ -76,6 +76,11 @@ class CrawlerServer(ServiceBase):
             exam_period=crawler.res['Prfungsperioden'],
             lecture_break=crawler.res['Vorlesungsunterbrechungen']
         )
+
+    @rpc(Integer, _returns=Unicode)
+    def semester_infos(ctx, ele):
+        crawler.htwk_info(selector=ele)
+        return crawler.semester_info
 
 
 application = Application([CrawlerServer], tns='crawler.example',
