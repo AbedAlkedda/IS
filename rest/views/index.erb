@@ -66,6 +66,7 @@
               link      = [],
               thumbnail = [];
 
+        // Movies to show selecotr
         $('.js-number-selector').on('change', function(e) {
           $('.js-data-wrapper').empty();
 
@@ -119,11 +120,18 @@
           });
         });
 
-        // Next click
-        $('.js-htwk-button-next').on('click', function () {
+        // button click
+        $('.js-htwk-button').on('click', function (e) {
           let ele = parseInt($('.js-semester-num').text());
-          ele ++;
-          if (ele > 6 ) { ele = 5; }
+
+          if (e.target.name === 'prev') {
+            ele --;
+            if (ele < 0 ) { ele = 0; }
+          } else {
+            ele ++;
+            if (ele > 6 ) { ele = 5; }
+          }
+
           $('.js-semester-num').text(ele);
 
           fetch('/update-htwk-info', {
@@ -154,43 +162,6 @@
             console.error('Error:', error);
           });
         });
-
-        // Prev click
-        $('.js-htwk-button-previous').on('click', function () {
-          let ele = parseInt($('.js-semester-num').text());
-          ele --;
-          if (ele < 0 ) { ele = 0; }
-          $('.js-semester-num').text(ele);
-
-          fetch('/update-htwk-info', {
-              method:  'POST',
-              headers: {'Content-Type': 'application/json'},
-              body:    JSON.stringify(ele)
-          })
-          .then(response => response.json())
-          .then(data => {
-            $('.js-semester-info').text(data[1]);
-
-            var i = 0;
-            $('.js-htwk-info td#key').each(function() {
-              var newText = data[0][i][0];
-              $(this).text(newText);
-              i++;
-            });
-
-            i = 0;
-
-            $('.js-htwk-info td#val').each(function() {
-              var newText = data[0][i][1];
-              $(this).text(newText);
-              i++;
-            });
-          })
-          .catch(error => {
-            console.error('Error:', error);
-          });
-        });
-
       });
     </script>
   </head>
@@ -238,10 +209,10 @@
       </div>
 
       <div class="htwk-header">
-        <button type="button" name="prev" class="js-htwk-button-previous htwk-button-previous btn btn-info">previous semester</button>
+        <button type="button" name="prev" class="js-htwk-button htwk-button-previous btn btn-info">previous semester</button>
         <h2 class="semester-info js-semester-info"><%= @semeter_infos %></h2>
         <div class="js-semester-num hidden"><%= @semester_num %></div>
-        <button type="button" name="next" class="js-htwk-button-next btn htwk-button-next btn btn-info">next semester</button>
+        <button type="button" name="next" class="js-htwk-button btn htwk-button-next btn btn-info">next semester</button>
       </div>
 
       <div class="htwk-info js-htwk-info">
