@@ -27,4 +27,3 @@ class SOAPClient
     response.body[:htwk_info_response][:htwk_info_result].to_a
   end
 end
-

@@ -105,4 +105,3 @@ class Crawler:
                     self.res[category] = dates
         else:
             logging.warn("Could not find 'contenttable' on the page.")
-
