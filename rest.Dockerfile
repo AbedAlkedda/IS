@@ -4,13 +4,13 @@ FROM ruby:2.7.2
 WORKDIR /app
 
 # Copy the Gemfile and Gemfile.lock into the container
-COPY server_a/Gemfile server_a/Gemfile.lock ./
+COPY rest/Gemfile rest/Gemfile.lock ./
 
 # Install dependencies
 RUN bundle install
 
 # Copy the rest of the application code into the container
-COPY server_a/ ./
+COPY rest/ ./
 
 # Start the application
 CMD ["ruby", "app.rb", "-o", "0.0.0.0", "-p", "5000"]

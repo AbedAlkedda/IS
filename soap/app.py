@@ -86,7 +86,7 @@ if __name__ == '__main__':
     crawler = Crawler()
     crawler.run()
 
-    server = make_server('localhost', 8000, WsgiApplication(application))
+    server = make_server('', 8000, WsgiApplication(application))
     logging.basicConfig(level=logging.DEBUG)
     logging.info('starting server')
     server.serve_forever()

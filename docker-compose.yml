@@ -2,23 +2,23 @@ version: '3'
 
 services:
 
-  # Server A
-  server_a:
-    container_name: server_a
+  # REST API Server
+  rest:
+    container_name: rest
     build:
       context: .
-      dockerfile: server_a.Dockerfile
+      dockerfile: rest.Dockerfile
     networks:
       - network
     ports:
       - "5000:5000"
 
-  # Server B
-  server_b:
-    container_name: server_b
+  # SOAP Server
+  soap:
+    container_name: soap
     build:
       context: .
-      dockerfile: server_b.Dockerfile
+      dockerfile: soap.Dockerfile
     networks:
       - network
 

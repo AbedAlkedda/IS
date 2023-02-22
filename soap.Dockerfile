@@ -7,11 +7,11 @@ WORKDIR /home/serverb
 ENV PATH="/home/serverb/.local/bin:${PATH}"
 
 # Installs all python requirements
-COPY --chown=serverb:serverb server_b/requirements.txt .
+COPY --chown=serverb:serverb soap/requirements.txt .
 RUN pip install --user -r requirements.txt
 
 # Copy source files and start flask server
-COPY server_b/ .
+COPY soap/ .
 
 # Start the SOAP server when the container starts
 CMD ["python", "app.py"]
