@@ -69,7 +69,7 @@ class Crawler:
         soup = BeautifulSoup(response.content, 'html.parser')
 
         # Find the table with the class "contenttable"
-        contenttable = soup.find('table', {'class': 'contenttable'})
+        contenttable = soup.find_all('table', {'class': 'contenttable'})[2]
 
         if contenttable is not None:
             # Find all the table rows (tr elements) within that table

@@ -11,3 +11,29 @@ services:
 networks:
   my-network:
     driver: bridge
+
+
+# version: '3.9'
+
+# services:
+# server_a:
+# build:
+# context: .
+# dockerfile: Dockerfile
+# target: server_a
+# volumes:
+# - ./server_a:/app
+# ports:
+# - "4567:4567"
+# depends_on:
+# - server_b
+
+# server_b:
+# build:
+# context: .
+# dockerfile: Dockerfile
+# target: server_b
+# volumes:
+# - ./server_b:/home/serverb
+# ports:
+# - "8000:8000"
