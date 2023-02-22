@@ -37,3 +37,4 @@ post '/update-htwk-info' do
 
   [@htwk_infos, @semeter_infos].to_json
 end
+

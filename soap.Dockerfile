@@ -15,3 +15,4 @@ COPY soap/ .
 
 # Start the SOAP server when the container starts
 CMD ["python", "app.py"]
+
