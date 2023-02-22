@@ -71,9 +71,9 @@ class CrawlerServer(ServiceBase):
         return HtwkInfo(
             semester_duration=crawler.res['Semesterdauer'],
             precourses=crawler.res['Vorkurse'],
-            introductory_events=crawler.res['Einführungsveranstaltungen'],
+            introductory_events=crawler.res['Einfhrungsveranstaltungen'],
             lecture_period=crawler.res['Vorlesungszeitraum'],
-            exam_period=crawler.res['Prüfungsperioden'],
+            exam_period=crawler.res['Prfungsperioden'],
             lecture_break=crawler.res['Vorlesungsunterbrechungen']
         )
 

@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+
+  # Server A
+  server_a:
+    build:
+      context: .
+      dockerfile: server_a.Dockerfile
+    volumes:
+      - ./server_a:/app
+    ports:
+      - "4567:4567"
+    depends_on:
+      - server_b
+
+  # Server B
+  server_b:
+    build:
+      context: .
+      dockerfile: server_b.Dockerfile
+    volumes:
+      - ./server_b:/home/serverb
+    ports:
+      - "8000:8000"

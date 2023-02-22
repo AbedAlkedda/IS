@@ -5,6 +5,7 @@
 import pdb # noqa
 import requests
 import logging
+import re
 
 from pprint import pprint # noqa
 from bs4 import BeautifulSoup
@@ -81,11 +82,14 @@ class Crawler:
                 # Just a label without dates
                 if (len(ele_in_row) == 1):
                     ele = ele_in_row[0].text.replace('\t', '').replace('\xa0', '')
+                    ele = re.sub(r'[^\x00-\x7F]+', '', ele)
+
                     self.res[ele] = ''
 
                 # label with dates
                 if (len(ele_in_row) > 1):
                     category = ele_in_row[0].text.replace('\t', '').replace('\xa0', '')
+                    category = re.sub(r'[^\x00-\x7F]+', '', category)
                     dates = ele_in_row[1].text.replace('\t', '').replace('\xa0', '')
                     self.res[category] = dates
 
