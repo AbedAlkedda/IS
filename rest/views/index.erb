@@ -124,6 +124,8 @@
         $('.js-htwk-button').on('click', function (e) {
           let ele = parseInt($('.js-semester-num').text());
 
+          $(this).addClass('disabled');
+
           if (e.target.name === 'prev') {
             ele --;
             if (ele < 0 ) { ele = 0; }
@@ -157,10 +159,13 @@
               $(this).text(newText);
               i++;
             });
+
+            $(this).removeClass('disabled');
           })
           .catch(error => {
             console.error('Error:', error);
           });
+
         });
       });
     </script>
