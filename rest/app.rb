@@ -6,7 +6,7 @@ require_relative 'soap_client'
 
 set :port, 5000
 
-soap_client = SOAPClient.new('http://localhost:8000?wsdl')
+soap_client = SOAPClient.new(ENV['SOAP_CLIENT_URL'] || 'http://localhost:8000?wsdl')
 
 get '/' do
   @movies = soap_client.movies_data 2
