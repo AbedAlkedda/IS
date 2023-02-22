@@ -8,23 +8,29 @@ from wsgiref.simple_server import make_server
 from spyne import Application, rpc, ServiceBase, Integer, Unicode, Iterable, ComplexModel
 
 
-class MovieData(ComplexModel):
-    __namespace__ = 'movie_data'
+class HtwkInfo(ComplexModel):
+    __namespace__ = 'HtwkInfo'
+    semester_duration = Unicode()
+    precourses = Unicode()
+    introductory_events = Unicode()
+    lecture_period = Unicode()
+    exam_period = Unicode()
+    lecture_break = Unicode()
 
-    title = Unicode
-    year = Unicode
-    rating = Unicode
-    link = Unicode
-    thumbnail = Unicode
+
+class MovieData(ComplexModel):
+    __namespace__ = 'MovieData'
+
+    title = Unicode()
+    year = Unicode()
+    rating = Unicode()
+    link = Unicode()
+    thumbnail = Unicode()
 
 
 # SOAP Server
 class CrawlerServer(ServiceBase):
-    crawler = Crawler().movies(format='json')
-
-    @rpc(Integer, Integer, _returns=Integer)
-    def add_numbers(ctx, a, b):
-        return a + b
+    crawler = Crawler().run(format='json')
 
     @rpc(Integer, _returns=Iterable(Unicode))
     def titles(ctx, elements):
@@ -59,6 +65,18 @@ class CrawlerServer(ServiceBase):
 
         return res
 
+    @rpc(_returns=HtwkInfo)
+    def htwk_info(ctx):
+        crawler.htwk_info()
+        return HtwkInfo(
+            semester_duration=crawler.res['Semesterdauer'],
+            precourses=crawler.res['Vorkurse'],
+            introductory_events=crawler.res['Einführungsveranstaltungen'],
+            lecture_period=crawler.res['Vorlesungszeitraum'],
+            exam_period=crawler.res['Prüfungsperioden'],
+            lecture_break=crawler.res['Vorlesungsunterbrechungen']
+        )
+
 
 application = Application([CrawlerServer], tns='crawler.example',
                           in_protocol=Soap11(validator='lxml'),
@@ -66,7 +84,7 @@ application = Application([CrawlerServer], tns='crawler.example',
 
 if __name__ == '__main__':
     crawler = Crawler()
-    crawler.movies()
+    crawler.run()
 
     server = make_server('localhost', 8000, WsgiApplication(application))
     logging.basicConfig(level=logging.DEBUG)

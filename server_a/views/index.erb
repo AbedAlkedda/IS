@@ -5,7 +5,7 @@
     <title>Crawled Data</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-     <style>
+    <style>
       header { background-color: #343a40; color: white; padding: 10px 0; }
 
       th { text-align: center; }
@@ -38,6 +38,16 @@
       .table-bordered tbody td a:hover {text-decoration: none;color: #343a40; }
 
       .text-center { text-align: center; }
+
+      .htwk-info table { border-collapse: collapse;width: 100%; }
+
+      .htwk-info th, .htwk-info td { text-align: left;padding: 8px; }
+
+      .htwk-info tr:nth-child(even) { background-color: #f2f2f2; }
+
+      .htwk-info th { background-color: #4CAF50;color: white; }
+
+      .htwk-label { font-size: 24px;color: #333;text-align: center;margin-bottom: 20px; }
     </style>
 
     <script>
@@ -50,17 +60,18 @@
                 thumbnail = [];
 
         $('.js-number-selector').on('change', function(e) {
+
+            $('#num-label').text(e.target.value);
             // fetch data
             fetch('/update-list', {
-            method: 'POST', // or 'GET', 'PUT', 'DELETE'
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(e.target.value) // your data object or array as JSON string
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(e.target.value)
           })
           .then(response => response.json())
           .then(data => {
-            container.empty();
+            // replace the childern of the children!
+            // container.empty();
             data.forEach(function(item) {
               title.push(item.title);
               year.push(item.year);
@@ -93,7 +104,7 @@
         <form class="form-inline text-center" action="/" method="get">
           <div class="form-group js-number-selector number-selector">
             <label for="num">Movies to display</label>
-            <input type="range" min="0" max="100" class="form-control-range large-range" id="num" name="num" onchange="updateLabel(this.value)">
+            <input type="range" min="0" max="100" class="form-control-range large-range" id="num" name="num">
             <span id="num-label">0</span>
           </div>
         </form>
@@ -110,23 +121,30 @@
             </tr>
           </thead>
           <tbody>
-            <% @movies.each do |movie| %>
+            <% @movies.each_with_index do |movie, index| %>
               <tr class="text-center js-data-wrapper">
-                <td><img src="<%= movie[:thumbnail] %>" alt="<%= movie[:title] %>" class="img-thumbnail"></td>
-                <td><%= movie[:title] %></td>
-                <td><%= movie[:year] %></td>
-                <td><%= movie[:rating] %></td>
-                <td><%= "<a href='#{movie[:link]}' target='_blank'>#{movie[:link]}</a>" %></td>
+                <td id="img-<%= index %>"><img src="<%= movie[:thumbnail] %>" alt="<%= movie[:title] %>" class="img-thumbnail"></td>
+                <td id="title-<%= index %>"><%= movie[:title] %></td>
+                <td id="year-<%= index %>"><%= movie[:year] %></td>
+                <td id="rating-<%= index %>"><%= movie[:rating] %></td>
+                <td id="link-<%= index %>"><%= "<a href='#{movie[:link]}' target='_blank'>#{movie[:link]}</a>" %></td>
               </tr>
             <% end %>
           </tbody>
         </table>
       </div>
+
+      <div class="htwk-info">
+        <h2 class="htwk-label">Wintersemester 2022/2023</h2>
+        <table>
+          <% @htwk_infos.each do |key, value| %>
+            <tr>
+              <td><%= key %></td>
+              <td><%= value %></td>
+            </tr>
+          <% end %>
+        </table>
+      </div>
     </div>
-    <script>
-      function updateLabel(val) {
-        document.getElementById("num-label").innerHTML = val;
-      }
-    </script>
   </body>
 </html>

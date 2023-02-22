@@ -7,12 +7,16 @@ require_relative 'soap_client'
 soap_client = SOAPClient.new('http://localhost:8000?wsdl')
 
 get '/' do
-  @movies = soap_client.movies_data(10)
+  @movies = soap_client.movies_data 20
+  soap_client.htwk_info
+  @htwk_infos = soap_client.htwk_infos
+
   erb :index
 end
 
 post '/update-list' do
-  data = JSON.parse(request.body.read)
-  @movies = soap_client.movies_data(data.to_i)
+  data    = JSON.parse request.body.read
+  @movies = soap_client.movies_data data.to_i
+
   @movies.to_json
 end

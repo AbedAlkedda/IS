@@ -3,9 +3,10 @@
 # Check for wiki page, important
 
 import pdb # noqa
-from pprint import pprint # noqa
-
 import requests
+import logging
+
+from pprint import pprint # noqa
 from bs4 import BeautifulSoup
 
 
@@ -17,6 +18,7 @@ class Crawler:
         self.ratings = []
         self.links = []
         self.thumbnails = []
+        self.res = {}
 
     def crawl(self):
         response = requests.get('https://www.imdb.com/chart/top/')
@@ -52,9 +54,40 @@ class Crawler:
                 'thumbnail': thumbnail
             })
 
-    def movies(self, format='json'):
+    def run(self, format='json'):
         if not self.movie_data:
             self.crawl()
 
         if format == 'json':
             return self.movie_data
+
+    def htwk_info(self):
+        url = 'https://www.htwk-leipzig.de/studieren/im-studium/akademischer-kalender/'
+        response = requests.get(url)
+
+        # send a SSL request, otherwise the HTWK wont resposed
+        soup = BeautifulSoup(response.content, 'html.parser')
+
+        # Find the table with the class "contenttable"
+        contenttable = soup.find('table', {'class': 'contenttable'})
+
+        if contenttable is not None:
+            # Find all the table rows (tr elements) within that table
+            rows = contenttable.find_all('tr')
+            # Print out the contents of each row
+            for row in rows:
+                ele_in_row = row.find_all('td')
+
+                # Just a label without dates
+                if (len(ele_in_row) == 1):
+                    ele = ele_in_row[0].text.replace('\t', '').replace('\xa0', '')
+                    self.res[ele] = ''
+
+                # label with dates
+                if (len(ele_in_row) > 1):
+                    category = ele_in_row[0].text.replace('\t', '').replace('\xa0', '')
+                    dates = ele_in_row[1].text.replace('\t', '').replace('\xa0', '')
+                    self.res[category] = dates
+
+        else:
+            logging.warn("Could not find 'contenttable' on the page.")
