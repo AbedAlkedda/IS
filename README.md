@@ -1,7 +1,7 @@
 # God is a fucking astronat
 
 # run server_b
-pip install -r requirements.txt 
+pip install -r requirements.txt
 python app.py
 
 # run server_a

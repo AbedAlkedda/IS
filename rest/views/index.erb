@@ -48,11 +48,12 @@
       .htwk-info th { background-color: #4CAF50;color: white; }
 
       .htwk-label { font-size: 24px;color: #333;text-align: center;margin-bottom: 20px; }
+
+      .setting-wrapper { margin:30px; }
     </style>
 
     <script>
       $(document).ready(function() {
-        var container = $('.js-data-wrapper');
         var   title     = [],
               year      = [],
               rating    = [],
@@ -60,57 +61,56 @@
               thumbnail = [];
 
         $('.js-number-selector').on('change', function(e) {
-            $('#num-label').text(e.target.value);
-            fetch('/update-list', {
+          $('.js-data-wrapper').empty();
+
+          $('#num-label').text(e.target.value);
+
+          fetch('/update-list', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(e.target.value)
           })
           .then(response => response.json())
           .then(data => {
-            container.empty();
             data.forEach(function(item) {
               title.push(item.title);
               year.push(item.year);
               rating.push(item.rating);
               link.push(item.link);
               thumbnail.push(item.thumbnail);
-              console.log(link.length);
             });
+
+            for (let i = 0; i < title.length; i++) {
+                var tbody         = $('.js-data-wrapper').closest('tbody'),
+                    newRow        = $('<tr>', {'class': 'text-center js-data-wrapper'}),
+                    newImgCell    = $('<td>', {'class': 'js-img'}),
+                    newTitleCell  = $('<td>', {'class': 'js-title'}),
+                    newYearCell   = $('<td>', {'class': 'js-year'}),
+                    newRatingCell = $('<td>', {'class': 'js-rating'}),
+                    newLinkCell   = $('<td>', {'class': 'js-link'});
+
+                // Add content to the new cell elements
+                newImgCell.append($('<img>', {'src': thumbnail[i], 'alt': 'Image description', 'class': 'img-thumbnail'}));
+                newTitleCell.text(title[i]);
+                newYearCell.text(year[i]);
+                newRatingCell.text(rating[i]);
+                newLinkCell.append($('<a>', {'href': link[i], 'target': '_blank'}).text(link[i]));
+
+                // Add the new cell elements to the new row
+                newRow.append(newImgCell, newTitleCell, newYearCell, newRatingCell, newLinkCell);
+
+                // Add the new row to the tbody
+                tbody.append(newRow);
+              }
+              title.length     = 0;
+              year.length      = 0;
+              rating.length    = 0;
+              link.length      = 0;
+              thumbnail.length = 0;
           })
           .catch(error => {
             console.error('Error:', error);
           });
-
-        $('.js-data-wrapper').empty();
-        for (let i = 0; i < title.length; i++) {
-            // Get a reference to the tbody element
-            var tbody         = $('.js-data-wrapper').closest('tbody'),
-                newRow        = $('<tr>', {'class': 'text-center js-data-wrapper'}),
-                newImgCell    = $('<td>', {'class': 'js-img'}),
-                newTitleCell  = $('<td>', {'class': 'js-title'}),
-                newYearCell   = $('<td>', {'class': 'js-year'}),
-                newRatingCell = $('<td>', {'class': 'js-rating'}),
-                newLinkCell   = $('<td>', {'class': 'js-link'});
-
-            // Add content to the new cell elements
-            newImgCell.append($('<img>', {'src': thumbnail[i], 'alt': 'Image description', 'class': 'img-thumbnail'}));
-            newTitleCell.text(title[i]);
-            newYearCell.text(year[i]);
-            newRatingCell.text(rating[i]);
-            newLinkCell.append($('<a>', {'href': link[i], 'target': '_blank'}).text(link[i]));
-
-            // Add the new cell elements to the new row
-            newRow.append(newImgCell, newTitleCell, newYearCell, newRatingCell, newLinkCell);
-
-            // Add the new row to the tbody
-            tbody.append(newRow);
-          }
-          title.length     = 0;
-          year.length      = 0;
-          rating.length    = 0;
-          link.length      = 0;
-          thumbnail.length = 0;
         });
       });
     </script>
@@ -122,11 +122,13 @@
     </header>
     <div class="container">
       <div class="row">
-        <form class="form-inline text-center" action="/" method="get">
-          <div class="form-group js-number-selector number-selector">
-            <label for="num">Movies to display</label>
-            <input type="range" min="0" max="100" class="form-control-range large-range" id="num" name="num" value="2">
-            <span id="num-label">2</span>
+        <form class="form-inline text-center">
+          <div class="d-flex align-items-center">
+            <div class="form-group js-number-selector number-selector">
+              <label for="num">Movies to display</label>
+              <input type="range" min="0" max="100" class="form-control-range large-range" id="num" name="num" value="2">
+              <span id="num-label">2</span>
+            </div>
           </div>
         </form>
       </div>
