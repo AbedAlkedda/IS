@@ -38,7 +38,7 @@ class SPARQLClient
 
   def _query_footer
     <<~SPARQL
-        FILTER (lang(?abstract) = "en")
+        FILTER (lang(?abstract) = "ar")
         BIND(?film AS ?title)
       }
     SPARQL
