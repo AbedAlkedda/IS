@@ -23,7 +23,11 @@ class Crawler:
         self.semester_info = ''
 
     def crawl(self):
-        response = requests.get('https://www.imdb.com/chart/top/')
+        headers = {'Accept-Language': 'en-US,en;q=0.9'}
+
+        response = requests.get('https://www.imdb.com/chart/top/',
+                                headers=headers)
+
         soup = BeautifulSoup(response.text, 'html.parser')
 
         movie_table = soup.find('tbody', {'class': 'lister-list'})
