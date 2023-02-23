@@ -14,8 +14,8 @@ get '/' do
 
   soap_client.htwk_info @semester_num
 
-  @htwk_infos    = soap_client.htwk_infos
-  @semeter_infos = soap_client.semeter_infos
+  @htwk_infos     = soap_client.htwk_infos
+  @semester_infos = soap_client.semester_infos
 
   erb :index
 end
@@ -32,8 +32,8 @@ post '/update-htwk-info' do
   @semester_num = data.to_i
 
   soap_client.htwk_info @semester_num
-  @htwk_infos    = soap_client.htwk_infos
-  @semeter_infos = soap_client.semeter_infos
+  @htwk_infos     = soap_client.htwk_infos
+  @semester_infos = soap_client.semester_infos
 
-  [@htwk_infos, @semeter_infos].to_json
+  [@htwk_infos, @semester_infos].to_json
 end

@@ -1,4 +1,4 @@
-# God is a fucking astronat
+# My Web Crawler
 
 # run server_b
 pip install -r requirements.txt

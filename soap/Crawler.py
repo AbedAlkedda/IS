@@ -65,7 +65,7 @@ class Crawler:
 
     def htwk_info(self, selector=2):
         url = 'https://www.htwk-leipzig.de/studieren/im-studium/akademischer-kalender/'
-        response = requests.get(url)
+        response = requests.get(url, verify=True)
 
         # send a SSL request, otherwise the HTWK wont resposed
         soup = BeautifulSoup(response.content, 'html.parser')
