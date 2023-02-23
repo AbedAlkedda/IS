@@ -9,6 +9,10 @@ set :port, 5000
 soap_client = SOAPClient.new(ENV['SOAP_CLIENT_URL'] || 'http://localhost:8000?wsdl')
 
 get '/' do
+  erb :landing_page
+end
+
+get '/lists' do
   @movies       = soap_client.movies_data 2
   @semester_num = 2
 
@@ -17,7 +21,7 @@ get '/' do
   @htwk_infos     = soap_client.htwk_infos
   @semester_infos = soap_client.semester_infos
 
-  erb :index
+  erb :lists
 end
 
 post '/update-list' do
