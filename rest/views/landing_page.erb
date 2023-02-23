@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Crawled Data</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  </head>
+  <script>
+    $(document).ready(function() {
+      var currentUrl = window.location.href,
+          link       = $("#js-link a");
+
+      link.attr("href", currentUrl + 'lists');
+    });
+  </script>
+  <body>
+    <header>
+      <h1>Hello</h1>
+    </header>
+    <main>
+      <ul>
+        <li id="js-link"><a href="">Check my lists</a></li>
+      </ul>
+    </main>
+  </body>
+</html>

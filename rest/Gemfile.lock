@@ -9,20 +9,33 @@ GEM
     awesome_print (1.9.2)
     builder (3.2.4)
     byebug (11.1.3)
+    connection_pool (2.3.0)
     date (3.3.3)
+    ebnf (2.3.2)
+      htmlentities (~> 4.3)
+      rdf (~> 3.2)
+      scanf (~> 1.0)
+      sxp (~> 1.2)
+      unicode-types (~> 1.8)
     gyoku (1.4.0)
       builder (>= 2.1.2)
       rexml (~> 3.0)
+    htmlentities (4.3.4)
     httpi (3.0.1)
       rack
+    link_header (0.0.8)
+    logger (1.5.3)
     mail (2.8.1)
       mini_mime (>= 0.1.1)
       net-imap
       net-pop
       net-smtp
+    matrix (0.4.2)
     mini_mime (1.1.2)
     mustermann (1.1.2)
       ruby2_keywords (~> 0.0.1)
+    net-http-persistent (4.0.1)
+      connection_pool (~> 2.2)
     net-imap (0.3.4)
       date
       net-protocol
@@ -40,6 +53,13 @@ GEM
     rack (2.2.6.2)
     rack-protection (2.1.0)
       rack
+    rdf (3.2.9)
+      link_header (~> 0.0, >= 0.0.8)
+    rdf-aggregate-repo (3.2.1)
+      rdf (~> 3.2)
+    rdf-xsd (3.2.1)
+      rdf (~> 3.2)
+      rexml (~> 3.2)
     rexml (3.2.5)
     ruby2_keywords (0.0.5)
     savon (2.13.0)
@@ -51,13 +71,30 @@ GEM
       nokogiri (>= 1.8.1)
       nori (~> 2.4)
       wasabi (~> 3.4)
+    scanf (1.0.0)
     sinatra (2.1.0)
       mustermann (~> 1.0)
       rack (~> 2.2)
       rack-protection (= 2.1.0)
       tilt (~> 2.0)
+    sparql (3.2.5)
+      builder (~> 3.2)
+      ebnf (~> 2.2, >= 2.3.1)
+      logger (~> 1.5)
+      rdf (~> 3.2, >= 3.2.8)
+      rdf-aggregate-repo (~> 3.2)
+      rdf-xsd (~> 3.2)
+      sparql-client (~> 3.2, >= 3.2.1)
+      sxp (~> 1.2, >= 1.2.2)
+    sparql-client (3.2.1)
+      net-http-persistent (~> 4.0, >= 4.0.1)
+      rdf (~> 3.2, >= 3.2.6)
+    sxp (1.2.3)
+      matrix (~> 0.4)
+      rdf (~> 3.2)
     tilt (2.1.0)
     timeout (0.3.2)
+    unicode-types (1.8.0)
     wasabi (3.8.0)
       addressable
       httpi (~> 3.0)
@@ -71,6 +108,8 @@ DEPENDENCIES
   byebug
   savon
   sinatra (~> 2.1.0)
+  sparql
+  sparql-client
 
 BUNDLED WITH
    2.2.29

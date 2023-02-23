@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require 'savon'
-require 'byebug'
-
 # SOAP Client
 class SOAPClient
   attr_reader :htwk_infos, :semester_infos
@@ -18,7 +15,7 @@ class SOAPClient
   end
 
   def htwk_info(ele)
-    response       = @client.call :semester_infos, message: { ele: ele }
+    response        = @client.call :semester_infos, message: { ele: ele }
     @semester_infos = response.body[:semester_infos_response][:semester_infos_result]
 
     response    = @client.call :htwk_info, message: { ele: ele }

@@ -47,7 +47,13 @@
 
       .htwk-info th { background-color: #4CAF50;color: white; }
 
-      .semester-info js-semester-info { font-size: 24px;color: #333;text-align: center;margin-bottom: 20px; }
+      .semester-info { font-size: 24px;color: #333;text-align: center;margin-bottom: 20px; }
+
+      .abstract-header { margin: 20px; }
+
+      .extra-info { font-size:22px; color:#751681; text-align:center; margin-bottom: 20px; }
+
+      .input-box { background-color: #f6f6f6; }
 
       .setting-wrapper { margin:30px; }
 
@@ -56,6 +62,14 @@
       .htwk-button-previous { margin-right: 10px; }
 
       .htwk-button-next { margin-left: 10px; }
+
+      .extra-info * { display: inline-block; vertical-align: middle; }
+
+      .input-box { width: 200px; }
+
+      .abstract-text { background: gray; }
+
+      .actor-names { font-size: 19px; }
     </style>
 
     <script>
@@ -167,6 +181,35 @@
           });
 
         });
+
+        // Display click
+        $('.js-abstract-button').on('click', function (e) {
+          $(this).addClass('disabled');
+          $('.abstract-text').text('Wait a sec');
+          var movieName = $('.js-movie-input').val();
+
+          fetch('/show-extra', {
+              method:  'POST',
+              headers: {'Content-Type': 'application/json'},
+              body:    JSON.stringify(movieName)
+          })
+          .then(response => response.json())
+          .then(data => {
+            $(this).removeClass('disabled');
+            if (data[0] === '') {
+              $('.abstract-text').text('Not Found');
+            } else {
+              $('.abstract-text').text(data[1]);
+              $('.js-actor-names-wrapper').empty();
+              $.each(data[0], function(index, value) {
+                $('.js-actor-names-wrapper').append($('<div>').text(value));
+              });
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+        });
       });
     </script>
   </head>
@@ -230,6 +273,23 @@
           <% end %>
         </table>
       </div>
+
+      <div class="container">
+        <h2 class="abstract-header">Abstract and actors name </h2>
+        <div class="extra-info">
+          <input type="text" class="input-box js-movie-input form-control" placeholder="Movie name">
+          <button type="button" class="js-abstract-button btn btn-warning">Display</button>
+        </div>
+        <p class="abstract-text extra-info">Abstract will be displayed here</p>
+      </div>
+
+      <div class="container">
+        <h2 class="abstract-header">Actors name</h2>
+        <div class="js-actor-names-wrapper actor-names">
+          <p>Names will be displayed here</p>
+        </div>
+      </div>
+      <div >
     </div>
   </body>
 </html>
