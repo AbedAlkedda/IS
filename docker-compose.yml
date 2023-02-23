@@ -12,7 +12,7 @@ services:
       network:
         ipv4_address:  10.5.0.2
     ports:
-      - "5000:5000"
+      - "80:5000"
     depends_on:
       - soap
 
@@ -26,7 +26,7 @@ services:
       network:
         ipv4_address:  10.5.0.3
     ports:
-      - "8000:8000"
+      - "8001:8000"
 
 
 networks:
