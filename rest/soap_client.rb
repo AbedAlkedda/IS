@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
+require 'savon'
+
 # SOAP Client
 class SOAPClient
   attr_reader :htwk_infos, :semester_infos
 
   def initialize(wsdl_url)
-    @client = Savon.client(wsdl: wsdl_url)
+    @client = Savon.client wsdl: wsdl_url
   end
 
   def movies_data(elements)

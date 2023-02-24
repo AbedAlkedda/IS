@@ -186,7 +186,11 @@
         $('.js-abstract-button').on('click', function (e) {
           $(this).addClass('disabled');
           $('.abstract-text').text('Wait a sec');
-          var movieName = $('.js-movie-input').val();
+          var movieName = $('.js-movie-input').val().split(',');
+
+          if (movieName.length === 1 || movieName[1] === '' ) {
+            movieName[1] = 'ar';
+          }
 
           fetch('/show-extra', {
               method:  'POST',
@@ -275,7 +279,7 @@
       </div>
 
       <div class="container">
-        <h2 class="abstract-header">Abstract and actors name </h2>
+        <h2 class="abstract-header">Abstract and actor names </h2>
         <div class="extra-info">
           <input type="text" class="input-box js-movie-input form-control" placeholder="Movie name">
           <button type="button" class="js-abstract-button btn btn-warning">Display</button>

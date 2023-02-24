@@ -1,13 +1,10 @@
 # frozen_string_literal: true
 
-require 'sparql/client'
-require 'savon'
+require 'socket'
+require 'sinatra'
 
 require_relative 'sparql_client'
 require_relative 'soap_client'
-
-require 'sinatra'
-require 'byebug'
 
 set :port, 5000
 
@@ -49,8 +46,9 @@ post '/update-htwk-info' do
 end
 
 post '/show-extra' do
-  data = JSON.parse request.body.read
-  res  = sparql_client.show_movie(data.gsub(/\t/, ''))
+  data    = JSON.parse request.body.read
+  data[1] = data[1].gsub(/\t/, '')
+  res     = sparql_client.show_movie(data)
 
   res.to_json
 end

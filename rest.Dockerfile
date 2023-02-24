@@ -1,7 +1,10 @@
-FROM ruby:2.7.2
+FROM ruby:2.6.7
 
 # Set the working directory to /app
 WORKDIR /app
+
+# Install a newer version of Bundler
+RUN gem install bundler
 
 # Copy the Gemfile and Gemfile.lock into the container
 COPY rest/Gemfile rest/Gemfile.lock ./

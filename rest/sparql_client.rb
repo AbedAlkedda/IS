@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'sparql/client'
+
 # SPARQL Client
 class SPARQLClient
   attr_reader :actors, :abstract
@@ -8,8 +10,8 @@ class SPARQLClient
     @client = SPARQL::Client.new('http://dbpedia.org/sparql')
 
     query   = _query_header
-    query  += "\n ?film dbp:name\"#{movie}\"@en .\n"
-    query  += _query_footer
+    query  += "\n ?film dbp:name\"#{movie[0]}\"@en .\n"
+    query  += _query_footer movie[1]
     result  = @client.query query
     @actros = []
 
@@ -36,9 +38,9 @@ class SPARQLClient
     SPARQL
   end
 
-  def _query_footer
+  def _query_footer(lang)
     <<~SPARQL
-        FILTER (lang(?abstract) = "ar")
+        FILTER (lang(?abstract) = "#{lang}")
         BIND(?film AS ?title)
       }
     SPARQL
